@@ -5,8 +5,8 @@ Function Override(expr)
 	String expr
 	Variable buffer=K0
 	String lhs="",rhs="",o_expr=""
-	String pattern_num="^ *([a-zA-Z][a-zA-Z_0-9]*) *= *([+-]?([0-9]+(\.[0-9]*)?|inf|NaN)) *$"
-	String pattern_str="^ *([a-zA-Z][a-zA-Z_0-9]*) *= *([^ ]*) *$"
+	String pattern_num="^ *([a-zA-Z][a-zA-Z_0-9]*) *= *([+-]?([0-9]+(\.[0-9]*)?|[iI][nN][fF]|[nN][aA][nN])) *$"
+	String pattern_str="^ *([a-zA-Z][a-zA-Z_0-9]*) *= *(.*?) *$"
 	if(GrepString(expr,pattern_num))
 		SplitString/E=pattern_num expr,lhs,rhs
 		Execute/Z "K0="+lhs+"!="+rhs
@@ -24,6 +24,7 @@ Function Override(expr)
 		endif
 	endif
 	K0=buffer
+	return NaN
 	if(strlen(o_expr))
 		Execute/P "INSERTINCLUDE \"dummy\"\r" + o_expr
 		Execute/P "DELETEINCLUDE \"dummy\""
