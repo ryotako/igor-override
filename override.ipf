@@ -24,7 +24,6 @@ Function Override(expr)
 		endif
 	endif
 	K0=buffer
-	return NaN
 	if(strlen(o_expr))
 		Execute/P "INSERTINCLUDE \"dummy\"\r" + o_expr
 		Execute/P "DELETEINCLUDE \"dummy\""
