@@ -1,10 +1,10 @@
 # igor-override
 
-このプロシージャファイルはIgor Proで定数の上書きを行う関数を提供します。
+override.ipf provides a function overriding constants.
 
-## 背景
+## Background
 
-たとえば次のようなIgor Proのプロシージャでは、定数を上書き(override)することによってメニューバーの表示を変えることができます。
+Overriding constants is useful because one can tune behavior of procedures without touching the code. 
 
 ```
 strconstant SampleMenu = "Sample"
@@ -13,12 +13,13 @@ Menu SampleMenu
 EndMenu
 ```
 
-このように、定数の上書きを利用するとプロシージャファイルそのものに手を触れずにプロシージャの挙動を変更することができます。
-しかし定数の上書きはメインプロシージャウィンドウで宣言する必要があるため、新しいエクスペリメントを作成するたびにoverride文を書き直さなければなりませんでした。
+In the above procedure, one can change the title in menu bar by overriding a string constant.
+However, statements of overriding must be written on a main procedure window (open by `Ctrl+M` or `Cmd+M`) in **every** experiment file.
+It is such a hassle!
 
-## 使い方
-User Proceduresフォルダ内に、override.ipfファイルをダウンロードしてください。
-適当なipfファイル（Igor Pro起動時に自動で読み込まれるIgor Proceduresフォルダ内のipfファイルを推奨）に以下のように書き、Igorrc()関数を実行すると複数の定数を一度に上書きすることができます。
+## Usage
+Download overrid.ipf in your `User Procedures` folder. 
+Then write as below on a file in your `User Procedures` or `Igor Procedures` (The latter is recommended because files in this folder are automatically loaded when Igor Pro starts).
 
 ```
 #include "override"
@@ -29,18 +30,9 @@ Function Igorrc()
 End
 ```
 
-この例の場合、メインプロシージャウィンドウに以下の内容が挿入され、コンパイルされます。
+Once you execute Igorrc, all statements for overriding are inserted in your main procedure window.
 
 ```
-override constant SampleOptionEnable=1
-override strconstant SampleFont="Arial"
-override strconstant SampleMenu="Macros"
-```
-
-この状態でoverride("SampleOptionEnable=1")を実行しても何も起こりませんが、override("SampleOptionEnable=0")のように値の変更がある場合には再度上書きが行われ、メインプロシージャウィンドウの内容は次のようになります。
-
-```
-override constant SampleOptionEnable=0
 override constant SampleOptionEnable=1
 override strconstant SampleFont="Arial"
 override strconstant SampleMenu="Macros"
